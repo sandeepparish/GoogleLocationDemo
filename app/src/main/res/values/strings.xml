@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GoogleLocationDemo</string>
+    <string name="getLocation">Get Location</string>
+    <string name="currentLocationIs">Current Location is</string>
+</resources>

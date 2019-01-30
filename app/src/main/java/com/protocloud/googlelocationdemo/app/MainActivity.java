@@ -37,9 +37,11 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
 
     private final static int REQUEST_CODE_GPS_SETTINGS = 0;
     private final static int LOCATION_PERMISSIONS_REQUEST_CODE = 1;
+
     FusedLocationProviderClient mFusedLocationClient;
     LocationRequest mLocationRequest;
     LocationCallback mLocationCallback;
+
     private GoogleApiClient googleApiClient;
     private Location myLocation;
     private ProgressDialog locationDialog;
@@ -110,11 +112,12 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
                 locationDialog.show();
 
                 if (mFusedLocationClient != null) {
+
                     mLocationRequest = new LocationRequest();
                     mLocationRequest.setInterval(120000); // two minute interval
-
                     mLocationRequest.setFastestInterval(120000);
-                    mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+                    mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
                     if (ContextCompat.checkSelfPermission(this,
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
@@ -127,7 +130,10 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
                                 }
                             }
                         };
-                        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+
+                        /** No Need we are requesting location updates after checking gps*/
+                        //  mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+
                         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                                 .addLocationRequest(mLocationRequest);
 
@@ -148,9 +154,9 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
                                                 .checkSelfPermission(MainActivity.this,
                                                         Manifest.permission.ACCESS_FINE_LOCATION);
                                         if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
-                                            myLocation = LocationServices.FusedLocationApi
-                                                    .getLastLocation(googleApiClient);
+                                            mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
                                         }
+
                                         break;
                                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                                         try {

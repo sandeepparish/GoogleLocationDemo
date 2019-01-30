@@ -148,7 +148,7 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
                                 switch (status.getStatusCode()) {
                                     case LocationSettingsStatusCodes.SUCCESS:
                                         /**
-                                         * Get last known recent location using new Google Play Services SDK (v11+)
+                                         * Settings is already enabled now we can request for location updates
                                          */
                                         int permissionLocation = ContextCompat
                                                 .checkSelfPermission(MainActivity.this,
